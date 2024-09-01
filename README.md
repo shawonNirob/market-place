@@ -107,4 +107,4 @@ Contributions are welcome! Please fork the repository and create a pull request 
 
 ## Contact
 
-For any inquiries or support, please contact me via [LinkedIn](https://www.linkedin.com/in/shawonNirob/).
+For any inquiries or support, please contact me via [LinkedIn](https://www.linkedin.com/in/shawon-sarowar/).
