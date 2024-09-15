@@ -4,7 +4,6 @@ public class UserDTO {
     private Long id;
     private String username;
     private String email;
-    // Getters and setters omitted for brevity
 
     public Long getId() {
         return id;
