@@ -57,43 +57,57 @@ The **Market-Place** application is a Java-based web application designed to fac
 
 ### User Table
 ```sql
-CREATE TABLE user (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    full_name VARCHAR(255) NOT NULL,
-    dob DATE,
-    user_type INT,
-    user_status INT,
-    date_created DATETIME DEFAULT CURRENT_TIMESTAMP,
-    date_updated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+create table users
+(
+    id         int auto_increment
+        primary key,
+    username   varchar(50)                           not null,
+    password   varchar(100)                          not null,
+    email      varchar(100)                          not null,
+    role       varchar(20) default 'USER'            not null,
+    created_at timestamp   default CURRENT_TIMESTAMP null,
+    updated_at timestamp   default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP,
+    constraint email
+        unique (email),
+    constraint username
+        unique (username)
 );
 ```
 
 ### Products Table
 ```sql
-CREATE TABLE products (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    title VARCHAR(255) NOT NULL,
-    post_description TEXT NOT NULL,
-    status INT NOT NULL,
-    updated_by INT,
-    date_created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    date_updated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
+create table products
+(
+    id          int auto_increment
+        primary key,
+    name        varchar(100)                        not null,
+    description text                                null,
+    price       decimal(10, 2)                      not null,
+    seller_id   int                                 not null,
+    created_at  timestamp default CURRENT_TIMESTAMP null,
+    updated_at  timestamp default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP,
+    constraint products_ibfk_1
+        foreign key (seller_id) references users (id)
+            on delete cascade
 );
 ```
 
-### Comments Table
+### Transaction Table
 ```sql
-CREATE TABLE comments (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    post_id INT NOT NULL,
-    comment_by INT NOT NULL,
-    comments TEXT NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
-    FOREIGN KEY (comment_by) REFERENCES user(id) ON DELETE CASCADE
+create table transactions
+(
+    id               int auto_increment
+        primary key,
+    product_id       int                                 not null,
+    buyer_id         int                                 not null,
+    transaction_date timestamp default CURRENT_TIMESTAMP null,
+    amount           decimal(10, 2)                      not null,
+    constraint transactions_ibfk_1
+        foreign key (product_id) references products (id)
+            on delete cascade,
+    constraint transactions_ibfk_2
+        foreign key (buyer_id) references users (id)
+            on delete cascade
 );
 ```
 
